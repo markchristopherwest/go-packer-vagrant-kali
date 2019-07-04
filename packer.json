@@ -1,0 +1,43 @@
+{
+    "builders": [
+        {
+            "type": "vmware-vmx",
+            "source_path": "/Users/mark/vm/vmw/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx",
+            "ssh_username": "root",
+            "ssh_password": "toor",
+            "shutdown_command": "shutdown -P now"
+          }
+    ],
+  
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sed -i \"s/.*PermitRootLogin.*/PermitRootLogin  yes/g\" /etc/ssh/sshd_config"
+            ]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "./ansible/kalibot.yml"
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "compression_level": 1,
+            "override": {
+              "vmware": {
+                "compression_level": 0
+              }
+            },
+            "vagrantfile_template": "vagrantfile.tpl",
+            "output": "/var/tmp/go-packer-vagrant-kali.box"
+        },
+        {
+            "type": "shell-local",
+            "inline": ["vagrant box add /var/tmp/go-packer-vagrant-kali.box --name kali-linux --provider=vmware_desktop  --force"]
+        }
+
+    ]
+  }
