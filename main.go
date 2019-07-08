@@ -58,59 +58,55 @@ func main() {
 	}
 	fmt.Println(dir)
 
-	// YMMV
-	// cmd00 := commandClass{Command: "curl https://images.offensive-security.com/virtual-images/kali-linux-2019.2-vmware-amd64.7z", Path: "/var/tmp/", Message: "Downloading VHD..."}
+	// Curl expected 7z
+	// cmd01 := commandClass{Command: "curl https://images.offensive-security.com/virtual-images/kali-linux-2019.2-vmware-amd64.7z", Path: "/users/Mark/Downloads/kali", Message: "Downloading VHD..."}
 
-	// Copy expected checksum
-	cmd01 := commandClass{Command: "cp -rf /Users/mark/Downloads/kali-linux-2019.2-vmware-amd64.7z /var/tmp", Path: "/var/tmp", Message: "Downloading VHD..."}
+	// Rsync expected payload
+	cmd02 := commandClass{Command: "/usr/bin/rsync -avh /Users/mark/Downloads/kali /var/tmp", Path: "/var/tmp", Message: "Kali rsync to /var/tmp"}
 
 	// Validate the file
-	cmd02 := commandClass{Command: "sha256sum -c kali-linux-2019.2-vmware-amd64.7z.txt.sha256sum", Path: "/var/tmp", Message: "Validating Checksum..."}
+	cmd03 := commandClass{Command: "/usr/local/bin/sha256sum -c kali-linux-2019.2-vmware-amd64.7z.txt.sha256sum", Path: "/var/tmp/kali", Message: "Validating Checksum in /var/tmp"}
 
 	// Keka Extract 7zip
-	cmd03 := commandClass{Command: "/Applications/Keka.app/Contents/Resources/keka7z x /var/tmp/kali-linux-2019.2-vmware-amd64.7z", Path: "/var/tmp", Message: "Extracting 7zip..."}
+	cmd04 := commandClass{Command: "/Applications/Keka.app/Contents/Resources/keka7z x /var/tmp/kali/kali-linux-2019.2-vmware-amd64.7z", Path: "/var/tmp/kali", Message: "Extracting 7z via Keka"}
 
-	// VMW vmrun silence (vm package lock)
-	cmd04 := commandClass{Command: "rm -f /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx.lck", Path: "/var/tmp", Message: "VMW remove guest package lock"}
+	// recode VMX encoding
+	cmd05 := commandClass{Command: "recode cp1251..utf8 /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/kali/Kali-Linux-2019.2-vmware-amd64", Message: "VMX change encoding"}
 
-	// VMW vmrun silence (vmx hush dialog)
-	cmd05 := commandClass{Command: "echo 'msg.autoanswer = \"true\"'$'\r' >> 'Kali-Linux-2019.2-vmware-amd64.vmx'", Path: "/var/tmp/kali-linux-2019-2-vmware-amd64-7z/Kali-Linux-2019.2-vmware-amd64", Message: "VMW append vmx options"}
+	// // VMX change encoding to UTF8
+	cmd06 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*encoding.*/.encoding=\"utf-8\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed .encoding"}
 
-	// VMW vmrun upgrade
-	cmd06 := commandClass{Command: "vmrun upgradevm /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp", Message: "VMW append vmx options"}
+	// // VMX vmrun silence (msg.autoAnswer in VMX like Packer)
+	cmd07 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*uuid.bios.*/uuid.action=\"create\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed msg.autoanswer"}
+
+	// // VMX vmrun silence (uuid.action in VMX like Packer)
+	cmd08 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*uuid.location.*/msg.autoanswer=\"true\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed uuid.action "}
 
 	// VMW vmrun start
-	cmd07 := commandClass{Command: "vmrun start /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/", Message: "VMW vmrun start guest"}
+	cmd09 := commandClass{Command: "vmrun start /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/", Message: "VMW vmrun start"}
 
 	// VMW vmrun copyFileFromHostToGuest
-	cmd08 := commandClass{Command: "vmrun -gu root -gp toor copyFileFromHostToGuest /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx bootstrap.sh /var/tmp/bootstrap.sh", Path: dir, Message: "VMW vmrun copyFileFromHostToGuest"}
+	cmd10 := commandClass{Command: "vmrun -gu root -gp toor copyFileFromHostToGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx bootstrap.sh /var/tmp/bootstrap.sh", Path: dir, Message: "VMW vmrun copyFileFromHostToGuest"}
 
 	// VMW vmrun runScriptInGuest
-	cmd09 := commandClass{Command: "vmrun -gu root -gp toor runScriptInGuest /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx /bin/bash /var/tmp/bootstrap.sh", Path: "/var/tmp", Message: "VMW vmrun runScriptInGuest"}
+	cmd11 := commandClass{Command: "vmrun -gu root -gp toor runScriptInGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx /bin/bash /var/tmp/bootstrap.sh", Path: "/var/tmp", Message: "VMW vmrun runScriptInGuest"}
 
 	// VMW vmrun shutdown
-	cmd10 := commandClass{Command: "vmrun stop /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx soft", Path: "/var/tmp", Message: "VMW vmrun shutdown"}
+	cmd12 := commandClass{Command: "vmrun stop /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx soft", Path: "/var/tmp", Message: "VMW vmrun stop soft"}
 
-	// VMKFSTOOLS defrag disk (to reduce clone time)
-	cmd11 := commandClass{Command: "vmware-vdiskmanager -d /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmdk", Path: "/Applications/VMware Fusion.app/Contents/Library", Message: "VMKFSTOOLS defrag disk (to reduce clone time)"}
+	// Packer build vagrant
+	cmd13 := commandClass{Command: "/usr/local/bin/packer build packer.json", Path: dir, Message: "Packer build Vagrant box & vagrant box add local repo"}
 
-	// VMKFSTOOLS shrink disk (to reduce disk size)
-	cmd12 := commandClass{Command: "vmware-vdiskmanager -k /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmdk", Path: "/Applications/VMware Fusion.app/Contents/Library", Message: "VMKFSTOOLS shrink disk (to reduce disk size)"}
+	// VMW delete guest
+	cmd14 := commandClass{Command: "vmrun deleteVM /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp", Message: "VMW vmrun deleteVM"}
 
-	// Execute packer build
-	cmd13 := commandClass{Command: "packer build packer.json", Path: dir, Message: "Execute packer build"}
+	// Delete source files
+	cmd15 := commandClass{Command: "rm -rf /var/tmp/kali", Path: dir, Message: "CleanUp Our Workspace"}
 
-	// Cleanup source directory
-	cmd14 := commandClass{Command: "rm -rf /var/tmp/kali-linux-2019.2-vmware-amd64.7z", Path: "/var/tmp", Message: "Cleanup 7zip cache"}
+	// Initialize Kali for Vagrant
+	cmd16 := commandClass{Command: "vagrant init --output /var/tmp/go-packer-vagrant-kali.vagrantfile --box-version kali-linux", Path: "/var/tmp", Message: "Create Vagrant File"}
 
-	// Cleanup source directory
-	cmd15 := commandClass{Command: "vmrun deleteVM /var/tmp/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp", Message: "Cleanup VMW cache"}
-
-	// Delete source box
-	cmd16 := commandClass{Command: "rm -rf packer_cache output-vmware-vmx /var/tmp/Kali-Linux-2019.2-vmware-amd64", Path: dir, Message: "Cleanup Packer & VMW cache"}
-
-	// executor(cmd00)
-	executor(cmd01)
+	// executor(cmd01)
 	executor(cmd02)
 	executor(cmd03)
 	executor(cmd04)

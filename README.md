@@ -11,12 +11,12 @@ Many people use Kali.  Many people use VMware.  Many people use Vagrant.  Kali c
 You should have the following things installed:
 
 ```
-VMware Fusion (developed & tested using version 11)
-Go (you can install using homebrew)
-Packer (you can install using homebrew)
-Vagrant (you can install using homebrew)
-Keka (you can swap this for 7zip & install either using homebrew)
-vmrun (comes with VMware so youa re good to if you've got desktop aka fusion)
+VMware Fusion (developed & tested using version 11.1.0)
+Go (via homebrew)
+Packer (via homebrew)
+Vagrant (via homebrew)
+Keka (via homebrew)
+vmrun (default in VMware so you are good if VMware desktop aka fusion is installed)
 
 ```
 
@@ -44,16 +44,16 @@ go run main.go
 
 You can change or uncomment/toggle cmd0 to meet your needs (copy locally vs download, etc.)
 
-## Testing your install
+## Test
 
-After you run the go file, you'll want to validate that the Vagrant box was created & installed into your local boxes.  To do 
+After you run the go file, you'll want to validate that the Vagrant box was created & installed into your local boxes.
 
 ### Vagrant Box List
 
 You might want to check the status of your vagrant boxes by running:
 
 ```
-➜  Downloads vagrant box list
+$ vagrant box list
 generic/rhel8      (vmware_desktop, 1.9.16)
 generic/ubuntu1604 (vmware_desktop, 1.9.16)
 generic/ubuntu1904 (vmware_desktop, 1.9.16)
@@ -70,7 +70,7 @@ You'll want to modify your vagrantfile to include the parameters for the new box
 change the default VM in the vagrant file to your new box name or set as default
 ```
 
-## Deploying
+## Vagrant Kali (VMW)
 
 Customized your Vagrant files to create multi-node environments.
 
@@ -86,9 +86,9 @@ Customized your Vagrant files to create multi-node environments.
 
 We use [VagrantCloud](https://vagrantcloud.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/markchristopherwest/go-packer-vagrant-kali). 
 
-## Authors
+## Project Sponsors
 
-* **Mark Christopher West** - *Initial work* - [MarkChristopherWest](https://github.com/markchristopherwest)
+* **Mark Christopher West** - *Initial work* - [Facebook](https://facebook.com/markchristopherwest) - [Twitter](https://tw.com/markchristopherwest) - [GitHub](https://github.com/markchristopherwest) - [GitHub](https://github.com/markchristopherwest)
 
 See also the list of [contributors](https://github.com/markchristopherwest/go-packer-vagrant-kali/contributors) who participated in this project.
 

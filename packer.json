@@ -32,11 +32,11 @@
               }
             },
             "vagrantfile_template": "vagrantfile.tpl",
-            "output": "/var/tmp/go-packer-vagrant-kali.box"
+            "output": "/var/tmp/kali/go-packer-vagrant-kali.box"
         },
         {
             "type": "shell-local",
-            "inline": ["vagrant box add /var/tmp/go-packer-vagrant-kali.box --name kali-linux --provider=vmware_desktop  --force"]
+            "inline": ["vagrant box add /var/tmp/kali/go-packer-vagrant-kali.box --name kali-linux --provider=vmware_desktop  --force"]
         }
 
     ]
