@@ -74,13 +74,13 @@ func main() {
 	cmd05 := commandClass{Command: "recode cp1251..utf8 /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/kali/Kali-Linux-2019.2-vmware-amd64", Message: "VMX change encoding"}
 
 	// // VMX change encoding to UTF8
-	cmd06 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*encoding.*/.encoding=\"utf-8\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed .encoding"}
+	cmd06 := commandClass{Command: "/usr/bin/sed -i '.old' -e s/.*encoding.*/.encoding=utf-8/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed .encoding"}
 
 	// // VMX vmrun silence (msg.autoAnswer in VMX like Packer)
-	cmd07 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*uuid.bios.*/uuid.action=\"create\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed msg.autoanswer"}
+	cmd07 := commandClass{Command: "/usr/bin/sed -i '.old' -e s/.*uuid.bios.*/uuid.action=create/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed msg.autoanswer"}
 
 	// // VMX vmrun silence (uuid.action in VMX like Packer)
-	cmd08 := commandClass{Command: "/usr/bin/sed -i .bak -e s/.*uuid.location.*/msg.autoanswer=\"true\"/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed uuid.action "}
+	cmd08 := commandClass{Command: "/usr/bin/sed -i '.old' -e s/.*uuid.location.*/msg.autoanswer=true/g /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: dir, Message: "VMX sed uuid.action "}
 
 	// VMW vmrun start
 	cmd09 := commandClass{Command: "vmrun start /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/", Message: "VMW vmrun start"}
