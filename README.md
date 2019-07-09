@@ -16,6 +16,7 @@ Go (via homebrew)
 Packer (via homebrew)
 Vagrant (via homebrew)
 Keka (via homebrew)
+Recode (via homebrew)
 vmrun (default in VMware so you are good if VMware desktop aka fusion is installed)
 
 ```
@@ -88,7 +89,7 @@ We use [VagrantCloud](https://vagrantcloud.com/) for versioning. For the version
 
 ## Project Sponsors
 
-* **Mark Christopher West** - *Initial work* - [Facebook](https://facebook.com/markchristopherwest) - [Twitter](https://tw.com/markchristopherwest) - [GitHub](https://github.com/markchristopherwest) - [GitHub](https://github.com/markchristopherwest)
+* **Mark Christopher West** - *Initial work* - [Facebook](https://facebook.com/markchristopherwest) - [Twitter](https://tw.com/markchristopherwest) - [GitHub](https://github.com/markchristopherwest) - [LinkedIn](https://linkedin.com/in/markchristopherwest)
 
 See also the list of [contributors](https://github.com/markchristopherwest/go-packer-vagrant-kali/contributors) who participated in this project.
 

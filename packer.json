@@ -36,7 +36,7 @@
         },
         {
             "type": "shell-local",
-            "inline": ["vagrant box add /var/tmp/kali/go-packer-vagrant-kali.box --name kali-linux --provider=vmware_desktop  --force"]
+            "inline": ["vagrant box add /var/tmp/kali/go-packer-vagrant-kali.box --name kali-linux2019.2 --provider=vmware_desktop  --force"]
         }
 
     ]
