@@ -1,0 +1,6 @@
+---
+# This Playbook would deploy the whole stack.
+
+- hosts: localhost
+  roles:
+  - role: common

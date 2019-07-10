@@ -5,7 +5,9 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
+	"syscall"
 )
 
 type commandClass struct {
@@ -58,6 +60,21 @@ func main() {
 	}
 	fmt.Println(dir)
 
+	for _, p := range os.Args[1:] {
+		pid, err := strconv.ParseInt(p, 10, 64)
+		if err != nil {
+			log.Fatal(err)
+		}
+		process, err := os.FindProcess(int(pid))
+		if err != nil {
+			fmt.Printf("Failed to find process: %s\n", err)
+		} else {
+			err := process.Signal(syscall.Signal(0))
+			fmt.Printf("process.Signal on pid %d returned: %v\n", pid, err)
+		}
+
+	}
+
 	// Curl expected file
 	// cmd01 := commandClass{Command: "curl https://images.offensive-security.com/virtual-images/kali-linux-2019.2-vmware-amd64.7z", Path: "/users/Mark/Downloads/kali", Message: "Downloading VHD..."}
 
@@ -76,36 +93,59 @@ func main() {
 	// VMW vmrun upgrade
 	cmd06 := commandClass{Command: "vmrun upgradevm /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/", Message: "VMW vmrun upgradevm"}
 
-	// // VMX change encoding to UTF-8
-	cmd07 := commandClass{Command: "/bin/sh helper.sh", Path: dir, Message: "VMX sed .encoding"}
+	// VMX change encoding to UTF-8
+	cmd07 := commandClass{Command: "/bin/sh host/sh/helper.sh", Path: dir, Message: "Launch helper shell"}
 
 	// VMW vmrun start
 	cmd08 := commandClass{Command: "vmrun start /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp/", Message: "VMW vmrun start"}
 
 	// VMW vmrun copyFileFromHostToGuest
-	cmd09 := commandClass{Command: "vmrun -gu root -gp toor copyFileFromHostToGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx bootstrap.sh /var/tmp/bootstrap.sh", Path: dir, Message: "VMW vmrun copyFileFromHostToGuest"}
+	cmd09 := commandClass{Command: "vmrun -gu root -gp toor copyFileFromHostToGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx guest /var/tmp/guest", Path: dir, Message: "VMW vmrun copyFileFromHostToGuest"}
 
 	// VMW vmrun runScriptInGuest
-	cmd10 := commandClass{Command: "vmrun -gu root -gp toor runScriptInGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx /bin/bash /var/tmp/bootstrap.sh", Path: "/var/tmp", Message: "VMW vmrun runScriptInGuest"}
+	cmd10 := commandClass{Command: "vmrun -gu root -gp toor runScriptInGuest /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx /bin/bash /var/tmp/guest/sh/bootstrap.sh", Path: "/var/tmp", Message: "VMW vmrun runScriptInGuest"}
 
 	// VMW vmrun shutdown
 	cmd11 := commandClass{Command: "vmrun stop /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx soft", Path: "/var/tmp", Message: "VMW vmrun stop soft"}
 
 	// Packer build vagrant
-	cmd12 := commandClass{Command: "/usr/local/bin/packer build packer.json", Path: dir, Message: "Packer build Vagrant box & vagrant box add local repo"}
+	cmd12 := commandClass{Command: "/usr/local/bin/packer build host/packer/kali.json", Path: dir, Message: "Packer build Vagrant box & vagrant box add local repo"}
 
 	// VMW delete guest
 	cmd13 := commandClass{Command: "vmrun deleteVM /var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx", Path: "/var/tmp", Message: "VMW vmrun deleteVM"}
 
 	// Purge source files
-	cmd14 := commandClass{Command: "rm -rf /var/tmp/kali/", Path: dir, Message: "CleanUp Project Workspace"}
+	cmd14 := commandClass{Command: "rm -rf output-vmware-vmx packer-cache /var/tmp/kali", Path: dir, Message: "CleanUp Project Workspace"}
 
 	// Initialize Kali for Vagrant
-	cmd15 := commandClass{Command: "vagrant init --output /var/tmp/kali/Vagrantfile --box-version kali-linux2019.2", Path: "/var/tmp", Message: "Create Vagrant File"}
+	cmd15 := commandClass{Command: "cp Vagrantfile /var/tmp", Path: dir, Message: "Place Vagrant File"}
 
 	// Initialize Kali for Vagrant
-	cmd16 := commandClass{Command: "vagrant up", Path: "/var/tmp/kali", Message: "Launch Vagrant Up"}
+	cmd16 := commandClass{Command: "vagrant up", Path: "/var/tmp", Message: "Launch Vagrant Up"}
 
+	// Initialize Kali for Vagrant
+	cmd17 := commandClass{Command: "vagrant ssh kali", Path: "/var/tmp", Message: "Test Vagrant Connection"}
+
+	// Initialize Kali for Vagrant
+	cmd18 := commandClass{Command: "vagrant global-status", Path: "/var/tmp", Message: "Vagrant Global Status"}
+
+	// Initialize Kali for Vagrant
+	cmd19 := commandClass{Command: "ansible-playbook host/ansible/site.yml", Path: dir, Message: "Run iperf3 test & diff netstat before & after"}
+
+	// Initialize Kali for Vagrant
+	cmd20 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+
+	// Initialize Kali for Vagrant
+	cmd21 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+
+	// Initialize Kali for Vagrant
+	cmd22 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+
+	// Initialize Kali for Vagrant
+	cmd23 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+
+	// Initialize Kali for Vagrant
+	cmd24 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
 	// executor(cmd01)
 	executor(cmd02)
 	executor(cmd03)
@@ -122,5 +162,13 @@ func main() {
 	executor(cmd14)
 	executor(cmd15)
 	executor(cmd16)
+	executor(cmd17)
+	executor(cmd18)
+	executor(cmd19)
+	executor(cmd20)
+	executor(cmd21)
+	executor(cmd22)
+	executor(cmd23)
+	executor(cmd24)
 
 }

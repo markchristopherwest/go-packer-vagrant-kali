@@ -2,7 +2,7 @@
     "builders": [
         {
             "type": "vmware-vmx",
-            "source_path": "/Users/mark/vm/vmw/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx",
+            "source_path": "/var/tmp/kali/Kali-Linux-2019.2-vmware-amd64/Kali-Linux-2019.2-vmware-amd64.vmx",
             "ssh_username": "root",
             "ssh_password": "toor",
             "shutdown_command": "shutdown -P now"
@@ -18,7 +18,7 @@
         },
         {
             "type": "ansible-local",
-            "playbook_file": "./ansible/kalibot.yml"
+            "playbook_file": "guest/ansible/local.yml"
         }
     ],
 
@@ -31,7 +31,7 @@
                 "compression_level": 0
               }
             },
-            "vagrantfile_template": "vagrantfile.tpl",
+            "vagrantfile_template": "host/packer/kali.tpl",
             "output": "/var/tmp/kali/go-packer-vagrant-kali.box"
         },
         {

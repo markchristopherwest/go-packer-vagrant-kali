@@ -28,7 +28,7 @@ vmrun (default in VMware so you are good if VMware desktop aka fusion is install
 Install Prerequisites
 
 ```
-brew install vmware-fusion go packer vagrant keka git tree diff ssh-copy-id
+brew install vmware-fusion go packer vagrant keka git tree diff ssh-copy-idw33333333333332
 ```
 
 Clone Repository
@@ -85,7 +85,7 @@ Customized your Vagrant files to create multi-node environments.
 
 ## Versioning
 
-We use [VagrantCloud](https://vagrantcloud.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/markchristopherwest/go-packer-vagrant-kali). 
+[VagrantCloud](https://vagrantcloud.com/) uses versioning. For local vagrant box installation, see the [Packer Builders for Vagrant Docs](https://www.packer.io/docs/builders/vagrant.html). 
 
 ## Project Sponsors
 
