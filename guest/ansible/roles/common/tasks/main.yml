@@ -1,5 +1,6 @@
 ---
 - name: Install packages (present)
   apt:
-    name: tree
+    name: ['tree', 'htop', 'jq', 'net-tools',
+           'nano', 'vim', 'wget']
     state: present

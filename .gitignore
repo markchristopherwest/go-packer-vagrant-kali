@@ -1,0 +1,5 @@
+# file: .gitignore
+.DS_Store
+.idea
+packer_cache
+vmware*

@@ -16,9 +16,12 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 @pytest.mark.parametrize("name,version", [
-    ("git", "2.22"),
-    ("python", "3.6"),
     ("tree", "1.8.0"),
+    ("htop", "2.2.0"),
+    ("net-tools", "1.60"),
+    ("nano", "2.0.6"),
+    ("vim", "8.1"),
+    ("wget", "1.20.3"),
 ])
 def test_packages(host, name, version):
     pkg = host.package(name)
