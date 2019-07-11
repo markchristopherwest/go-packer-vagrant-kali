@@ -11,14 +11,15 @@
   
     "provisioners": [
         {
-            "type": "shell",
-            "inline": [
-                "sed -i \"s/.*PermitRootLogin.*/PermitRootLogin  yes/g\" /etc/ssh/sshd_config"
-            ]
+            "type": "ansible-local",
+            "playbook_file": "guest/ansible/local.yml",
+            "role_paths": [ "guest/ansible/roles/common" ]
         },
         {
-            "type": "ansible-local",
-            "playbook_file": "guest/ansible/local.yml"
+            "type": "shell",
+            "inline": [
+                "sed -i \"s/.*PermitRootLogin.*/PermitRootLogin  no/g\" /etc/ssh/sshd_config"
+            ]
         }
     ],
 

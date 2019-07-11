@@ -1,0 +1,12 @@
+all:
+  bar:
+  foo:
+  kali:
+  nodes:
+    clients:
+      hosts:
+        foo:
+        bar:
+    utility:
+      hosts:
+        kali:

@@ -118,34 +118,34 @@ func main() {
 	cmd14 := commandClass{Command: "rm -rf output-vmware-vmx packer-cache /var/tmp/kali", Path: dir, Message: "CleanUp Project Workspace"}
 
 	// Initialize Kali for Vagrant
-	cmd15 := commandClass{Command: "cp Vagrantfile /var/tmp", Path: dir, Message: "Place Vagrant File"}
+	cmd15 := commandClass{Command: "cp -rf host/vagrant /var/tmp/vagrant", Path: dir, Message: "Place Vagrant File"}
 
 	// Initialize Kali for Vagrant
-	cmd16 := commandClass{Command: "vagrant up", Path: "/var/tmp", Message: "Launch Vagrant Up"}
+	cmd16 := commandClass{Command: "vagrant up", Path: "/var/tmp/vagrant", Message: "Launch Vagrant Up"}
 
 	// Initialize Kali for Vagrant
-	cmd17 := commandClass{Command: "vagrant ssh kali", Path: "/var/tmp", Message: "Test Vagrant Connection"}
+	cmd17 := commandClass{Command: "vagrant ssh kali", Path: "/var/tmp/vagrant", Message: "Test Vagrant Connection"}
 
 	// Initialize Kali for Vagrant
-	cmd18 := commandClass{Command: "vagrant global-status", Path: "/var/tmp", Message: "Vagrant Global Status"}
+	cmd18 := commandClass{Command: "vagrant global-status --prune", Path: "/var/tmp/vagrant", Message: "Vagrant Global Status"}
 
 	// Initialize Kali for Vagrant
-	cmd19 := commandClass{Command: "ansible-playbook host/ansible/site.yml", Path: dir, Message: "Run iperf3 test & diff netstat before & after"}
+	cmd19 := commandClass{Command: "ansible-playbook host/ansible/site.yml -i host/ansible/inventory/go-packer-vagrant-kali.yml", Path: dir, Message: "Ansible site playbook"}
 
 	// Initialize Kali for Vagrant
-	cmd20 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+	cmd20 := commandClass{Command: "vagrant destroy -f kali web db", Path: "/var/tmp", Message: "Vagrant destroy site"}
 
 	// Initialize Kali for Vagrant
-	cmd21 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+	cmd21 := commandClass{Command: "ansible localhost -m raw 'curl http://localhost:30000/v1'", Path: "/var/tmp", Message: "Example curl no payload"}
 
 	// Initialize Kali for Vagrant
-	cmd22 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+	cmd22 := commandClass{Command: "ansible localhost -m raw 'vagrant global-status'", Path: "/var/tmp", Message: "Vagrant show cleanup"}
 
 	// Initialize Kali for Vagrant
-	cmd23 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+	cmd23 := commandClass{Command: "ansible localhost -m raw 'ip r s'", Path: "/var/tmp", Message: "IP route show"}
 
 	// Initialize Kali for Vagrant
-	cmd24 := commandClass{Command: "sleep 5", Path: "/var/tmp", Message: "Everybody Take Five"}
+	cmd24 := commandClass{Command: "ansible localhost -m setup -a 'filter=ansible_*_mb'", Path: "/var/tmp", Message: "Grab Memory Facts"}
 	// executor(cmd01)
 	executor(cmd02)
 	executor(cmd03)
